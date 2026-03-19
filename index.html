@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Forensix AI — Cybercrime Reconstructor</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
+
+  <!-- Chart.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════
+       CURSOR
+  ═══════════════════════════════════════════ -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- ═══════════════════════════════════════════
+       NAVIGATION
+  ═══════════════════════════════════════════ -->
+  <nav id="navbar">
+
+    <!-- LOGO AREA
+         Replace the <div class="logo-text"> block below with your own
+         <img> tag once you have your logo JPG ready.
+
+         Example:
+           <img src="assets/logo.jpg" alt="Forensix AI" class="logo-img" />
+
+         The .logo-img class is already defined in css/style.css
+    -->
+
+    <ul class="nav-links">
+      <li><a href="#simulation">Simulation</a></li>
+      <li><a href="#history">History</a></li>
+      <li><a href="#archive">Archive</a></li>
+      <li><a href="#threat-map">Threat Map</a></li>
+    </ul>
+
+    <div class="nav-right">
+      <div class="status-badge">
+        <div class="pulse-dot"></div>
+        THREAT LEVEL: CRITICAL
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-bg-circle"></div>
+    <div class="hero-bg-ring ring1"></div>
+    <div class="hero-bg-ring ring2"></div>
+
+    <div class="hero-tag">// CYBERCRIME INTELLIGENCE PLATFORM v4.1 — FORENSIX AI</div>
+
+    <h1 class="hero-title glitch" data-text="CYBERCRIME RECONSTRUCTOR">
+      <span class="line1">CYBERCRIME</span>
+      <span class="line2">RECONSTRUCTOR</span>
+    </h1>
+
+    <p class="hero-sub">
+      Reconstruct, analyze &amp; understand cyber attacks in real-time.
+      Trace attack vectors, visualize breach timelines, and learn from historical global incidents.
+    </p>
+
+    <div class="hero-cta">
+      <a href="#simulation" class="cta-btn cta-primary">LAUNCH SIMULATION</a>
+      <a href="#archive" class="cta-btn cta-secondary">BROWSE ARCHIVE</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num" id="c1">0</div>
+        <div class="stat-label">ATTACKS ANALYZED</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="stat-num" id="c2">0</div>
+        <div class="stat-label">THREAT ACTORS</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="stat-num" id="c3">0B</div>
+        <div class="stat-label">RECORDS EXPOSED</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="stat-num" id="c4">0%</div>
+        <div class="stat-label">DETECTION RATE</div>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <span>SCROLL TO EXPLORE</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ═══════════════════════════════════════════
+       MODULE 01 — LIVE SIMULATION
+  ═══════════════════════════════════════════ -->
+  <section id="simulation" class="content-section">
+    <div class="section-header">
+      <div class="section-tag">// MODULE 01</div>
+      <h2 class="section-title">LIVE ATTACK <span>SIMULATION</span></h2>
+    </div>
+
+    <!-- Attack type selector -->
+    <div class="attack-selector">
+      <div class="selector-label">SELECT ATTACK SCENARIO:</div>
+      <div class="selector-buttons">
+        <button class="sel-btn active" onclick="setScenario('sqli')">SQL INJECTION</button>
+        <button class="sel-btn" onclick="setScenario('ransomware')">RANSOMWARE</button>
+        <button class="sel-btn" onclick="setScenario('ddos')">DDoS FLOOD</button>
+        <button class="sel-btn" onclick="setScenario('apt')">APT INTRUSION</button>
+      </div>
+    </div>
+
+    <!-- Phase bar -->
+    <div class="phases" id="phases">
+      <div class="phase-step" id="ph0">RECONNAISANCE</div>
+      <div class="phase-step" id="ph1">SCANNING</div>
+      <div class="phase-step" id="ph2">EXPLOITATION</div>
+      <div class="phase-step danger" id="ph3">INFILTRATION</div>
+      <div class="phase-step danger" id="ph4">EXFILTRATION</div>
+      <div class="phase-step danger" id="ph5">PERSISTENCE</div>
+    </div>
+
+    <div class="sim-grid">
+      <!-- Network Canvas -->
+      <div class="panel sim-main">
+        <div class="sim-header-bar">
+          <div class="sim-title">// NETWORK TOPOLOGY — LIVE FEED</div>
+          <div class="sim-controls">
+            <button class="btn btn-primary" id="startBtn" onclick="startSim()">► LAUNCH SIM</button>
+            <button class="btn btn-danger" id="stopBtn" onclick="stopSim()" style="display:none">■ HALT</button>
+          </div>
+        </div>
+        <canvas id="netCanvas"></canvas>
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-label">PACKETS INTERCEPTED</div>
+            <div class="metric-val" id="m-packets">0</div>
+            <div class="metric-bar"><div class="metric-bar-fill" id="bar-packets" style="width:0%"></div></div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">COMPROMISED HOSTS</div>
+            <div class="metric-val red" id="m-hosts">0</div>
+            <div class="metric-bar"><div class="metric-bar-fill red" id="bar-hosts" style="width:0%"></div></div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">DATA EXFILTRATED (GB)</div>
+            <div class="metric-val warn" id="m-data">0.00</div>
+            <div class="metric-bar"><div class="metric-bar-fill" style="width:0%;background:var(--warn)" id="bar-data"></div></div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">ATTACK CONFIDENCE</div>
+            <div class="metric-val" id="m-conf">0%</div>
+            <div class="metric-bar"><div class="metric-bar-fill" id="bar-conf" style="width:0%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Terminal -->
+      <div class="panel terminal" id="terminal">
+        <div class="term-header">
+          <div class="term-dot" style="background:#ff3c6e"></div>
+          <div class="term-dot" style="background:#ffcc00"></div>
+          <div class="term-dot" style="background:#00ffaa"></div>
+          FORENSIX ATTACK LOG — REAL-TIME
+        </div>
+        <div id="termContent">
+          <span class="log-line"><span class="log-muted">System ready. Select a scenario and launch simulation...</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ═══════════════════════════════════════════
+       MODULE 02 — ATTACK HISTORY
+  ═══════════════════════════════════════════ -->
+  <section id="history" class="content-section">
+    <div class="section-header">
+      <div class="section-tag">// MODULE 02</div>
+      <h2 class="section-title">COMPANY ATTACK <span>HISTORY</span></h2>
+    </div>
+
+    <div class="panel full-chart-panel">
+      <div class="chart-label">ATTACK FREQUENCY — 2019 to 2024</div>
+      <canvas id="timelineChart" style="max-height:200px"></canvas>
+    </div>
+
+    <div class="history-grid">
+      <div class="panel chart-panel">
+        <div class="chart-label">ATTACK VECTOR DISTRIBUTION</div>
+        <canvas id="vectorChart" style="max-height:250px"></canvas>
+      </div>
+      <div class="panel chart-panel">
+        <div class="chart-label">SEVERITY BREAKDOWN BY YEAR</div>
+        <canvas id="severityChart" style="max-height:250px"></canvas>
+      </div>
+    </div>
+
+    <!-- Risk score panel -->
+    <div class="panel full-chart-panel" style="margin-top:24px">
+      <div class="chart-label">RISK SCORE OVER TIME</div>
+      <canvas id="riskChart" style="max-height:160px"></canvas>
+    </div>
+
+    <div class="panel timeline-wrap">
+      <div class="chart-label">INCIDENT TIMELINE</div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot red"></div>
+          <div class="tl-date">// 2024-03-14 — 02:47 UTC</div>
+          <div class="tl-event">SQL Injection — Customer Database Breach</div>
+          <div class="tl-detail">Attacker exploited an unsanitized input in the /api/search endpoint. 2.3M customer records exfiltrated including PII and hashed passwords. Attack persisted for 6 hours before detection.</div>
+          <span class="tl-badge badge-crit">CRITICAL</span>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot warn"></div>
+          <div class="tl-date">// 2023-11-02 — 09:13 UTC</div>
+          <div class="tl-event">Phishing Campaign — Executive Account Takeover</div>
+          <div class="tl-detail">Spear-phishing email with malicious OAuth app targeted C-suite. CFO credentials compromised. Internal financial reports accessed and exfiltrated over 48 hours.</div>
+          <span class="tl-badge badge-high">HIGH</span>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot warn"></div>
+          <div class="tl-date">// 2023-06-19 — 14:30 UTC</div>
+          <div class="tl-event">Ransomware — Production Server Encryption</div>
+          <div class="tl-detail">LockBit 3.0 variant deployed via compromised RDP session. 14 production servers encrypted. 72-hour downtime. Ransom demand: $2.4M in Monero. Recovered via backups.</div>
+          <span class="tl-badge badge-crit">CRITICAL</span>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot" style="border-color:var(--accent3)"></div>
+          <div class="tl-date">// 2022-08-07 — 23:55 UTC</div>
+          <div class="tl-event">DDoS Attack — API Gateway Overload</div>
+          <div class="tl-detail">Botnet of 47,000+ nodes targeted the main API gateway with 2.8M req/sec. Service degraded for 4.5 hours. Attack traced to Mirai variant botnet C2 server.</div>
+          <span class="tl-badge badge-med">MEDIUM</span>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot red"></div>
+          <div class="tl-date">// 2021-12-12 — 06:22 UTC</div>
+          <div class="tl-event">Log4Shell (CVE-2021-44228) — Remote Code Execution</div>
+          <div class="tl-detail">Critical Log4j vulnerability exploited in logging pipeline. RCE achieved. Cryptominer deployed. Lateral movement detected across 3 internal subnets within 20 minutes of initial breach.</div>
+          <span class="tl-badge badge-crit">CRITICAL</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ═══════════════════════════════════════════
+       MODULE 03 — LIVE THREAT MAP
+  ═══════════════════════════════════════════ -->
+  <section id="threat-map" class="content-section">
+    <div class="section-header">
+      <div class="section-tag">// MODULE 03</div>
+      <h2 class="section-title">LIVE GLOBAL <span>THREAT MAP</span></h2>
+    </div>
+    <div class="panel" style="padding:28px">
+      <div class="chart-label">REAL-TIME ATTACK ORIGIN — GLOBAL FEED</div>
+      <canvas id="threatMapCanvas" style="width:100%;height:420px;display:block"></canvas>
+      <div class="threat-legend">
+        <div class="tleg-item"><span class="tleg-dot" style="background:var(--accent2)"></span> RANSOMWARE</div>
+        <div class="tleg-item"><span class="tleg-dot" style="background:var(--warn)"></span> PHISHING</div>
+        <div class="tleg-item"><span class="tleg-dot" style="background:var(--accent3)"></span> DDoS</div>
+        <div class="tleg-item"><span class="tleg-dot" style="background:var(--accent)"></span> SQL INJECTION</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ═══════════════════════════════════════════
+       MODULE 04 — GLOBAL ATTACK ARCHIVE
+  ═══════════════════════════════════════════ -->
+  <section id="archive" class="content-section">
+    <div class="section-header">
+      <div class="section-tag">// MODULE 04</div>
+      <h2 class="section-title">GLOBAL ATTACK <span>ARCHIVE</span></h2>
+    </div>
+
+    <!-- Search bar -->
+    <div class="archive-search-wrap">
+      <div class="archive-search">
+        <span class="search-icon">⌕</span>
+        <input type="text" id="archiveSearch" placeholder="Search attacks, threat actors, CVEs..." oninput="filterArchive(this.value)" />
+      </div>
+      <div class="archive-filter">
+        <select id="archiveSeverity" onchange="filterArchive(document.getElementById('archiveSearch').value)">
+          <option value="">ALL SEVERITY</option>
+          <option value="CRITICAL">CRITICAL</option>
+          <option value="HIGH">HIGH</option>
+          <option value="MEDIUM">MEDIUM</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="archive-grid">
+      <!-- List -->
+      <div class="panel archive-list" id="archiveList">
+        <!-- Populated by archive.js -->
+      </div>
+
+      <!-- Detail -->
+      <div class="panel attack-detail" id="attackDetail">
+        <div class="detail-placeholder">
+          <div class="placeholder-icon">⬡</div>
+          <div class="placeholder-text">SELECT AN INCIDENT FROM THE LIST</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════ -->
+  <footer>
+    <div class="footer-logo">FORENSIX <span>AI</span></div>
+    <div class="footer-tagline">CYBERCRIME INTELLIGENCE PLATFORM</div>
+    <div class="footer-note">// FOR EDUCATIONAL &amp; RESEARCH PURPOSES ONLY — UNAUTHORIZED ATTACKS ARE ILLEGAL //</div>
+    <div class="footer-copy">© 2024 FORENSIX AI SYSTEMS — ALL RIGHTS RESERVED</div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════
+       SCRIPTS  (order matters)
+  ═══════════════════════════════════════════ -->
+  <script src="archive-data.js"></script>
+  <script src="simulation.js"></script>
+  <script src="charts.js"></script>
+  <script src="archive.js"></script>
+  <script src="threatmap.js"></script>
+  <script src="main.js"></script>
+
+</body>
+</html>
